@@ -51,6 +51,10 @@
                             <i class="glyphicon glyphicon-edit"></i> 编辑
                         </a>
 
+                        <a href="{{ route('topics.append', $topic->id) }}" class="btn btn-default btn-xs pull-left" role="button" style="margin-left: 6px">
+                            <i class="glyphicon glyphicon-edit"></i> 追加资源
+                        </a>
+
                         <form action="{{ route('topics.destroy', $topic->id) }}" method="post">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
@@ -64,6 +68,9 @@
 
             </div>
         </div>
+
+        {{-- 资源列表 --}}
+        @include('topics._resource_list', ['resource' => $topic->resource()->select('simg_url', 'type', 'id')->groupBy('type')->where('status', 1)->get()])
 
         {{-- 用户回复列表 --}}
         <div class="panel panel-default topic-reply">

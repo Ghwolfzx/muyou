@@ -8,8 +8,8 @@ Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@register');
+// Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+// Route::post('register', 'Auth\RegisterController@register');
 
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -22,6 +22,7 @@ Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'edit'
 // Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
 Route::resource('topics', 'TopicsController', ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
 Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show');
+Route::get('append/{topic}', 'TopicsController@appendResource')->name('topics.append');
 
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 
@@ -33,3 +34,13 @@ Route::resource('notifications', 'NotificationsController', ['only' => ['index']
 
 Route::get('permission-denied', 'PagesController@permissionDenied')->name('permission-denied');
 
+Route::get('resource/{resource}', 'ResourceController@show')->name('resource.show');
+// Route::resource('resource', 'ResourceController', ['only' => ['show', 'store', 'update', 'edit', 'destroy']]);
+
+
+Route::get('index', 'ApiController@index');
+Route::get('index/{category}', 'ApiController@index');
+Route::get('index/{category}/{department}', 'ApiController@show');
+Route::get('index/{category}/{department}/{user}', 'ApiController@users');
+Route::get('index/{category}/{department}/{user}/{topic}', 'ApiController@topics');
+Route::get('index/{category}/{department}/{user}/{topic}/{resource}', 'ApiController@resources');

@@ -4,7 +4,7 @@ namespace App\Models;
 
 class Topic extends Model
 {
-    protected $fillable = ['title', 'body', 'image', 'category_id', 'excerpt', 'slug'];
+    protected $fillable = ['title', 'body', 'image', 'category_id', 'department_id', 'excerpt', 'slug'];
 
     public function replies()
     {
@@ -14,6 +14,11 @@ class Topic extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function resource()
+    {
+        return $this->hasMany(Resource::class);
     }
 
     public function user()

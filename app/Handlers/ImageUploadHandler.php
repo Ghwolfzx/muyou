@@ -8,7 +8,7 @@ class ImageUploadHandler
 {
     protected $allowed_ext = ["png", "jpg", "gif", 'jpeg'];
 
-    public function save($file, $folder, $file_prefix, $max_width = false)
+    public function save($file, $folder, $file_prefix, $max_width = false, $thumb = false)
     {
         // 构建存储的文件夹规则，值如：uploads/images/avatars/201709/21/
         // 文件夹切割能让查找效率更高。
@@ -40,9 +40,18 @@ class ImageUploadHandler
             $this->reduceSize($upload_path . '/' . $filename, $max_width);
         }
 
-        return [
+        $data = [
             'path' => config('app.url') . "/$folder_name/$filename"
         ];
+
+        if ($thumb !== false) {
+            // 此类中封装的函数，用于裁剪图片
+            $this->thumbReduceSize($upload_path . '/' . $filename, $upload_path . '/thumb_' . $filename, $thumb);
+
+            $data['thumb_path'] = config('app.url') . "/$folder_name/thumb_$filename";
+        }
+
+        return $data;
     }
 
     public function reduceSize($file_path, $max_width)
@@ -62,5 +71,25 @@ class ImageUploadHandler
 
         // 对图片修改后进行保存
         $image->save();
+    }
+
+    // 缩略图生成规则
+    public function thumbReduceSize($file_path, $upload_path, $max_width)
+    {
+        // 先实例化，传参是文件的磁盘物理路径
+        $image = Image::make($file_path);
+
+        // 进行大小调整的操作
+        $image->resize($max_width, null, function ($constraint) {
+
+            // 设定宽度是 $max_width，高度等比例双方缩放
+            $constraint->aspectRatio();
+
+            // 防止裁图时图片尺寸变大
+            $constraint->upsize();
+        });
+
+        // 对图片修改后进行保存
+        $image->save($upload_path);
     }
 }

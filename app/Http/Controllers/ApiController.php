@@ -82,14 +82,14 @@ class ApiController extends Controller
 
     public function topics(Category $category, Department $department, User $user, Topic $topic, Request $request)
     {
-        $resources = $topic->resource()->where(['status' => 1])->groupBy('type')->get();
+        $resources = $topic->resource()->where(['status' => 1])->groupBy('type')->orderBy('id', 'desc')->get();
 
         return compact('topic', 'resources');
     }
 
     public function resources(Category $category, Department $department, User $user, Topic $topic, $resource, Request $request)
     {
-        $resources = $topic->resource()->where('status', 1);
+        $resources = $topic->resource()->where('status', 1)->orderBy('id', 'desc');
         if($resource != 'all') {
             $resources->where('type', $resource);
         }

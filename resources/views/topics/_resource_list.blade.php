@@ -1,10 +1,10 @@
 @if(!empty($resource) && $resource != '[]')
 
     <div class="panel panel-default topic-reply">
-        @foreach ($resource as $index => $val)
-            <div class="panel-body">
-                <a href="{{ route('resource.show', $val->id) }}"><img src="{{ $val->simg_url }}"></a>
-            </div>
-        @endforeach
+        <div class="panel-body">
+            @foreach ($resource as $index => $val)
+                <a href="{{ route('resource.show', $val->id) }}" style="margin: 10px;"><img src="{{ $val->simg_url }}"></a>
+            @endforeach
+        </div>
     </div>
 @endif

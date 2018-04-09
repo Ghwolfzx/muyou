@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
 use App\Models\User;
 use App\Models\Topic;
@@ -42,8 +43,12 @@ class TopicsController extends Controller
 
 	public function create(Topic $topic)
     {
-        $categories = Category::all();
-        $departments = Department::all();
+        $user_department = DB::table('user_has_departments')->where('user_id', Auth::id())->select('category_id', 'department_id')->get()->toArray();
+        $category_ids = array_column($user_department, 'category_id');
+        $department_ids = array_unique(array_column($user_department, 'department_id'));
+
+        $categories = Category::whereIn('id', $category_ids)->get();
+        $departments = Department::whereIn('id', $department_ids)->get();
         return view('topics.create_and_edit', compact('topic', 'categories', 'departments'));
     }
 

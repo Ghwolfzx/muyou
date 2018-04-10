@@ -48,6 +48,10 @@ class CreateDepartmentsTable extends Migration
                 'name'        => '视频',
                 'description' => '视频',
             ],
+            [
+                'name'        => '漫画',
+                'description' => '漫画',
+            ],
         ];
         DB::table('departments')->insert($departments);
     }

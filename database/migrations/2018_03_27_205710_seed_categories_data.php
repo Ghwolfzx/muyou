@@ -12,17 +12,17 @@ class SeedCategoriesData extends Migration
             [
                 'name'        => '作妖计',
                 'description' => '作妖计',
-                'img'         => config('app.url') . 'images/zuoyaoji.jpg',
+                'img'         => config('app.url') . '/images/zuoyaoji.jpg',
             ],
             [
                 'name'        => '热血武道会',
                 'description' => '热血武道会',
-                'img'         => config('app.url') . 'images/rexue.jpg',
+                'img'         => config('app.url') . '/images/rexue.jpg',
             ],
             [
                 'name'        => '乌龙院',
                 'description' => '乌龙院',
-                'img'         => config('app.url') . 'images/wulongyuan.jpg',
+                'img'         => config('app.url') . '/images/wulongyuan.jpg',
             ],
         ];
 

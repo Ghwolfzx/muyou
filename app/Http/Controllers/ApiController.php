@@ -43,7 +43,7 @@ class ApiController extends Controller
             return $departments;
         } else {
 
-            $category = $category->select('id', 'name')->orderBy('id')->get();
+            $category = $category->select('id', 'name', 'img')->orderBy('id')->get();
             return $category;
         }
     }

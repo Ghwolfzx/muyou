@@ -17,7 +17,7 @@ class ResourceController extends Controller
 
     public function show(Request $request, Resource $resource)
     {
-        $resource = $resource->where('type', $resource->type)->get();
+        $resource = $resource->where('type', $resource->type)->where('status', 1)->get();
 
         return view('resource.show', compact('resource'));
     }

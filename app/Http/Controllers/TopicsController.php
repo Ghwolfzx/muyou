@@ -43,12 +43,16 @@ class TopicsController extends Controller
 
 	public function create(Topic $topic)
     {
-        $user_department = DB::table('user_has_departments')->where('user_id', Auth::id())->select('category_id', 'department_id')->get()->toArray();
-        $category_ids = array_column($user_department, 'category_id');
-        $department_ids = array_unique(array_column($user_department, 'department_id'));
-
-        $categories = Category::whereIn('id', $category_ids)->get();
-        $departments = Department::whereIn('id', $department_ids)->get();
+        if (Auth::user()->hasRole('Founder')) {
+            $categories = Category::all();
+            $departments = Department::all();
+        } else {
+            $user_department = DB::table('user_has_departments')->where('user_id', Auth::id())->select('category_id', 'department_id')->get()->toArray();
+            $category_ids = array_column($user_department, 'category_id');
+            $department_ids = array_unique(array_column($user_department, 'department_id'));
+            $categories = Category::whereIn('id', $category_ids)->get();
+            $departments = Department::whereIn('id', $department_ids)->get();
+        }
         return view('topics.create_and_edit', compact('topic', 'categories', 'departments'));
     }
 
@@ -101,8 +105,16 @@ class TopicsController extends Controller
 	public function edit(Topic $topic)
     {
         $this->authorize('update', $topic);
-        $categories = Category::all();
-        $departments = Department::all();
+        if (Auth::user()->hasRole('Founder')) {
+            $categories = Category::all();
+            $departments = Department::all();
+        } else {
+            $user_department = DB::table('user_has_departments')->where('user_id', Auth::id())->select('category_id', 'department_id')->get()->toArray();
+            $category_ids = array_column($user_department, 'category_id');
+            $department_ids = array_unique(array_column($user_department, 'department_id'));
+            $categories = Category::whereIn('id', $category_ids)->get();
+            $departments = Department::whereIn('id', $department_ids)->get();
+        }
         return view('topics.create_and_edit', compact('topic', 'categories', 'departments'));
     }
 

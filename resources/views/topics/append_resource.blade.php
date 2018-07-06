@@ -82,7 +82,7 @@
         var UPLOAD_URL = '{{ route('topics.upload_image') }}';
     </script>
     <script type="text/javascript" src="{{ asset('webuploader/webuploader.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('webuploader/demo.js') }}?v13"></script>
+    <script type="text/javascript" src="{{ asset('webuploader/demo.js') }}?v15"></script>
 @stop
 
 @endsection
